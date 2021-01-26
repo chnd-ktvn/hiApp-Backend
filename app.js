@@ -7,6 +7,7 @@ require('dotenv').config()
 
 const app = express()
 app.use(morgan('dev'))
+app.use(express.static('upload/user'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
