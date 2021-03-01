@@ -3,23 +3,27 @@ const {
   registerUser,
   loginUser,
   getUserProfile,
+  editActivation,
   editLocation,
   editProfileUser,
+  sendCodeForgot,
   deletePhotoProfileUser,
   addFriends,
   getListFriends
 } = require('../controller/user')
-// const { auth } = require('../middleware/auth')
+const { auth } = require('../middleware/auth')
 const uploadFile = require('../middleware/multerUser')
 
-router.get('/profile/:id', getUserProfile)
-router.get('/friends/:id', getListFriends)
+router.get('/profile/:id', auth, getUserProfile)
+router.get('/friends/:id', auth, getListFriends)
 router.post('/register', registerUser)
 router.post('/login', loginUser)
-router.patch('/editlocation/:id', editLocation)
-router.patch('/editprofile/:id', uploadFile, editProfileUser)
-router.patch('/deletephoto/:id', deletePhotoProfileUser)
-router.post('/addfriend', addFriends)
+router.patch('/activation', editActivation)
+router.patch('/forgotpassword', sendCodeForgot)
+router.patch('/editlocation/:id', auth, editLocation)
+router.patch('/editprofile/:id', auth, uploadFile, editProfileUser)
+router.patch('/deletephoto/:id', auth, deletePhotoProfileUser)
+router.post('/addfriend', auth, addFriends)
 module.exports = router
 
 // http://localhost:3010/user/register

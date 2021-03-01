@@ -14,6 +14,20 @@ module.exports = {
       )
     })
   },
+  getChat: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM chat WHERE id_room_gen=?', id,
+        (error, result) => {
+          if (!error) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+    })
+  },
   postRoom: (setData) => {
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO room_chat SET ?', setData, (error, result) => {

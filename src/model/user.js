@@ -18,7 +18,7 @@ module.exports = {
   },
   loginUser: (email) => {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT user_id, user_name, user_email, user_password FROM user WHERE user_email=?', email, (error, result) => {
+      connection.query('SELECT user_id, user_name, user_email, user_password, user_activation FROM user WHERE user_email=?', email, (error, result) => {
         if (!error) {
           resolve(result)
         } else {
@@ -45,20 +45,6 @@ module.exports = {
           resolve(result[0].photo)
         } else {
           reject(error)
-        }
-      })
-    })
-  },
-  editLocation: (setData, id) => {
-    return new Promise((resolve, reject) => {
-      connection.query(`UPDATE user SET ? WHERE user_id=${id}`, setData, (error, result) => {
-        if (!error) {
-          const newResult = {
-            user_id: id, ...setData
-          }
-          resolve(newResult)
-        } else {
-          reject(new Error(error))
         }
       })
     })
