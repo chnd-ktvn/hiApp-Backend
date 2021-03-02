@@ -253,9 +253,7 @@ module.exports = {
     try {
       const { id } = req.params
       const checkUserId = await getUserProfileById(id)
-      let { lat, lng } = req.body
-      lat = parseInt(lat)
-      lng = parseInt(lng)
+      const { lat, lng } = req.body
       if (checkUserId.length > 0) {
         const setData = {
           lat,
