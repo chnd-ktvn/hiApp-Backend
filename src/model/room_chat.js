@@ -28,6 +28,21 @@ module.exports = {
       )
     })
   },
+  // SELECT id_room_gen, id_sender, id_receiver, msg, user_name FROM chat JOIN user ON chat.id_receiver=user.user_id WHERE id_receiver=5 AND status=0
+  getNotif: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT id_room_gen, id_sender, id_receiver, msg, user_name FROM chat JOIN user ON chat.id_sender=user.user_id WHERE id_receiver=${id} AND status=0`,
+        (error, result) => {
+          if (!error) {
+            resolve(result)
+          } else {
+            reject(error)
+          }
+        }
+      )
+    })
+  },
   postRoom: (setData) => {
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO room_chat SET ?', setData, (error, result) => {
@@ -52,6 +67,18 @@ module.exports = {
             ...setData
           }
           resolve(newResult)
+        } else {
+          reject(new Error(error))
+        }
+      })
+    })
+  },
+  // update chat set status = 1 where id_receiver=5
+  editStatusMsg: (setData, id, id_receiver) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`UPDATE chat SET ? WHERE id_room_gen=${id} AND id_receiver=${id_receiver}`, setData, (error, result) => {
+        if (!error) {
+          resolve(result)
         } else {
           reject(new Error(error))
         }
