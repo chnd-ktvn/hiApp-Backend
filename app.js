@@ -9,6 +9,7 @@ const socket = require('socket.io')
 const app = express()
 app.use(morgan('dev'))
 // app.use(express.static('upload/user'))
+app.use('/api2/fileuploads', express.static('upload/user'))
 app.use(express.static('upload/user'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -18,7 +19,7 @@ app.use((request, response, next) => {
   response.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
   response.header('Access-Control-Allow-Headers', 'Content-Type'); next()
 })
-app.use('/', routesNav)
+app.use('/api2', routesNav)
 
 app.get('*', (request, response) => {
   response.status(404).send('Path Not Found!')
@@ -30,7 +31,8 @@ const server = http.createServer(app)
 const io = socket(server, {
   cors: {
     origin: '*'
-  }
+  },
+  path: '/api2/socket.io'
 })
 
 io.on('connection', (socket) => {
